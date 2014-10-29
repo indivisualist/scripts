@@ -1,0 +1,24 @@
+#!/bin/bash
+# clean old linux images
+
+# check for dpkg
+command -v dpkg >/dev/null 2>&1 || { 
+  echo >&2 "dpkg not found, aborting";
+  exit 1;
+} 
+
+# check for apt-get
+command -v apt-get >/dev/null 2>&1 || { 
+  echo >&2 "dpkg not found, aborting";
+  exit 1;
+} 
+
+# delete stuff
+sudo dpkg --get-selections | \
+  grep 'linux-image*' | \
+  awk '{print $1}' | \
+  egrep -v "linux-image-$(uname -r)|linux-image-generic" | \
+  while read n
+  do
+    sudo apt-get -y remove $n
+  done
