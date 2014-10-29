@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# check whether keymap is set to "de" or "en"
+# ... then switch to the other one
+
+if setxkbmap -print | awk -F"+" '/xkb_symbols/ {print $2}' | grep -q "de"
+	then
+	setxkbmap -layout us
+	elif setxkbmap -print | awk -F"+" '/xkb_symbols/ {print $2}' | grep -q "us"
+		then
+	setxkbmap -layout de
+fi
