@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# wait a second for display to change
+#sleep 1
+
+# check for connection on DP3
+STATUS=`cat /sys/class/drm/card0-DP-3/status`
+
+if [ "$STATUS"  == "connected" ]
+	then
+		# set DP3 primary and left
+		xrandr --output DP3 --mode 1920x1080 --pos 0x0 --rotate normal --output LVDS1 --mode 1366x768 --pos 1920x312 --rotate normal --output VGA1 --off
+	else
+		# let xrandr handle it, should set LVDS1 as primary
+		xrandr --auto
+fi
